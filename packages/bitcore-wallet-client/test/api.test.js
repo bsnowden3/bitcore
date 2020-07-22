@@ -3826,7 +3826,7 @@ describe('client API', function() { // DONT USE LAMBAS HERE!!! https://stackover
               done();
             }, '/v1/txproposals/');
           });
-        }, '/v3/txproposals');
+        }, '/v2/txproposals');
       });
 
       it.skip('Should sign proposal (legacy txp version 3)', (done) => {
