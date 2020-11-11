@@ -165,6 +165,8 @@ export class PushNotificationsService {
                         notification.data && notification.data.multisigContractAddress
                           ? notification.data.multisigContractAddress
                           : null;
+                      let tokenAddressRes = (tokenAddress) ? tokenAddress : 'null';
+                      let multisigContractAddressRes = (multisigContractAddress) ? multisigContractAddress : 'null';
                       return {
                         message: {
                           token: sub.token,
@@ -179,8 +181,8 @@ export class PushNotificationsService {
                           },
                           data: {
                             walletId: sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(notification.walletId)),
-                            tokenAddress,
-                            multisigContractAddress,
+                            tokenAddressRes,
+                            multisigContractAddressRes,
                             copayerId: sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(recipient.copayerId)),
                             title: content.plain.subject,
                             body: content.plain.body,
@@ -460,19 +462,20 @@ export class PushNotificationsService {
   }
 
   _makeRequest(opts, cb) {
-    let accessToken = this._getAccessToken();
-    this.request(
-      {
-        url: this.pushServerUrl,
-        method: 'POST',
-        json: true,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + accessToken
+    this._getAccessToken().then((access_token) => {
+      this.request(
+        {
+          url: this.pushServerUrl,
+          method: 'POST',
+          json: true,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + access_token
+          },
+          body: opts
         },
-        body: opts
-      },
-      cb
-    );
+        cb
+      );
+    });
   }
 }
