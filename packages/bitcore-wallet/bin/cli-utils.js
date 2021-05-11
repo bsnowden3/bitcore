@@ -316,8 +316,12 @@ Utils.COIN = {
     maxDecimals: 8,
     minDecimals: 8,
   },
- 
- 
+  doge: {
+    name: 'doge',
+    toSatoshis: 100000000,
+    maxDecimals: 8,
+    minDecimals: 8
+  }
 };
 
 Utils.renderAmount = function(satoshis, coin, opts) {
